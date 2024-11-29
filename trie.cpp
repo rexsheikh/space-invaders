@@ -10,7 +10,7 @@ TrieNode::~TrieNode(){
 Trie::Trie(){
     root = new TrieNode(); 
 }
-Trie::Trie(){
+Trie::~Trie(){
     delete root; 
 }
 void Trie::insert(const std::string& word) {

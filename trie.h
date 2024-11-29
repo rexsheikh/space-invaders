@@ -14,7 +14,8 @@ class Trie{
     private:
     TrieNode* root; 
     public:
-    Trie() noexcept; 
+    Trie(); 
+    ~Trie(); 
     void insert (const string &word); 
     bool search (const string &word) const; 
     bool startsWith(const string& prefix) const; 
