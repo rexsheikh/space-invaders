@@ -6,7 +6,7 @@ CXXFLAGS = -std=c++11 -Wall -Wextra -g
 TARGET = trie_program
 
 # Source files
-SRCS = main.cpp trie.cpp
+SRCS = main.cpp trie.cpp invader.cpp
 
 # Object files (generated from source files)
 OBJS = $(SRCS:.cpp=.o)
