@@ -11,16 +11,20 @@ SRCS = main.cpp trie.cpp
 # Object files (generated from source files)
 OBJS = $(SRCS:.cpp=.o)
 
+# Libraries and include paths
+LIBS = -lsfml-graphics -lsfml-window -lsfml-system
+INCLUDE = -I/opt/homebrew/include -I. # Added SFML include path
+
 # Default target to build the program
 all: $(TARGET)
 
 # Rule to build the target executable
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS) $(LIBS) -L/opt/homebrew/lib # Added SFML library path
 
 # Rule to build object files
 %.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -o $@
 
 # Clean up generated files
 clean:

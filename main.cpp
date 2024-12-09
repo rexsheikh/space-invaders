@@ -1,87 +1,20 @@
-// #include <iostream>
-// #include <fstream>
-// #include <string>
-// #include "trie.h"
-// using namespace std; 
-
-// int main(){
-//     Trie trie; 
-//     ifstream inputFile("words1.txt"); 
-//     if(!inputFile.is_open()){
-//         cout << "Failed to open file." << endl; 
-//         return 1; 
-//     }
-//     string word; 
-//     while(inputFile >> word){
-//         trie.insert(word); 
-//     }
-//     inputFile.close(); 
-//     cout << "Search 'hello': " << (trie.search("hello") ? "Found" : "Not Found") << endl;
-//     cout << "Search 'world': " << (trie.search("world") ? "Found" : "Not Found") << endl;
-//     cout << "Search 'cats': " << (trie.search("hell") ? "Found" : "Not Found") << endl;
-//     return 0; 
-// }
-
 #include <SFML/Graphics.hpp>
-#include <string>
-#include <vector>
+#include <fstream>
 #include <iostream>
-
-struct TrieNode {
-    bool is_end_of_word;
-    TrieNode* children[26];
-
-    TrieNode() {
-        is_end_of_word = false;
-        for (int i = 0; i < 26; ++i) {
-            children[i] = nullptr;
-        }
-    }
-};
-
-class Trie {
-public:
-    Trie() : root(new TrieNode()) {}
-
-    void insert(const std::string& word) {
-        TrieNode* node = root;
-        for (char c : word) {
-            int index = c - 'a';
-            if (!node->children[index]) {
-                node->children[index] = new TrieNode();
-            }
-            node = node->children[index];
-        }
-        node->is_end_of_word = true;
-    }
-
-    bool search(const std::string& word) {
-        TrieNode* node = root;
-        for (char c : word) {
-            int index = c - 'a';
-            if (!node->children[index]) {
-                return false;
-            }
-            node = node->children[index];
-        }
-        return node->is_end_of_word;
-    }
-
-private:
-    TrieNode* root;
-};
+#include <string>
+#include "trie.h"
+using namespace std;
 
 int main() {
+
+    //initialize the game window and simple prompts. 
     sf::RenderWindow window(sf::VideoMode(800, 600), "Typing Test");
     sf::Font font;
 
     if (!font.loadFromFile("Roboto-Regular.ttf")) {
-        std::cerr << "Error loading font\n";
+        cerr << "Error loading font\n";
         return -1;
-    } else {
-        std::cout << "Font loaded successfully!\n";
     }
-
     sf::Text prompt("Type a word:", font, 24);
     prompt.setPosition(50, 50);
     prompt.setFillColor(sf::Color::Black);
@@ -94,13 +27,24 @@ int main() {
     feedback.setPosition(50, 150);
     feedback.setFillColor(sf::Color::Red);
 
+    //initialize the trie and load words from words.txt
     Trie trie;
-    std::vector<std::string> words = {"hello", "world", "trie", "typing", "test", "sfml"};
-    for (const auto& word : words) {
-        trie.insert(word);
+    ifstream words_file("words.txt"); 
+    if (!words_file.is_open()) {
+        cerr << "Error: Could not open words file\n";
+        return -1;
     }
 
-    std::string input;
+    string word;
+    while (getline(words_file, word)) {
+        if (!word.empty()) {
+            trie.insert(word); // Insert word into the Trie
+        }
+    }
+    words_file.close();
+
+    //capture user input and check using the trie
+    string input;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -109,12 +53,9 @@ int main() {
                 window.close();
             }
 
-            if (event.type == sf::Event::TextEntered) {
-                char typed = static_cast<char>(event.text.unicode);
-
-                if (typed == '\b' && !input.empty()) {
-                    input.pop_back();
-                } else if (typed == '\r') {
+            // Handle Key Presses (Enter key logic)
+            if (event.type == sf::Event::KeyPressed) {
+                if (event.key.code == sf::Keyboard::Enter) { // Check for Enter key
                     if (trie.search(input)) {
                         feedback.setString("Correct!");
                         feedback.setFillColor(sf::Color::Green);
@@ -122,17 +63,29 @@ int main() {
                         feedback.setString("Incorrect!");
                         feedback.setFillColor(sf::Color::Red);
                     }
-                    input.clear();
-                } else if (std::isalpha(typed)) {
+                    input.clear(); // Reset input
+                }
+            }
+
+            // Handle Text Input (Typing)
+            if (event.type == sf::Event::TextEntered) {
+                char typed = static_cast<char>(event.text.unicode);
+
+                // Handle Backspace
+                if (typed == '\b' && !input.empty()) {
+                    input.pop_back();
+                }
+                // Append Characters (Only Alphabetic)
+                else if (isalpha(typed)) {
                     input += typed;
                 }
-
-                std::cout << "Current input: " << input << "\n";
             }
         }
 
+        // Update User Input Display
         user_input.setString("You typed: " + input);
 
+        // Render
         window.clear(sf::Color::White);
         window.draw(prompt);
         window.draw(user_input);
