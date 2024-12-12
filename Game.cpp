@@ -56,10 +56,14 @@ void Game::loadWords(const std::string& filename) {
 }
 
 // load words from the text file and initialize game with 5 invaders. 
+// populate the Trie with the words
 void Game::initialize() {
-    loadWords("words.txt"); 
-    invaders.reserve(5); 
-    for (int i = 0; i < 5; ++i) {
+    loadWords("words.txt");
+    for(const auto& word:words){
+        wordTrie.insert(word); 
+    } 
+    invaders.reserve(words.size()); 
+    for (size_t i = 0; i < words.size(); ++i) {
         invaders.emplace_back(
             sf::Vector2f(100.f + i * 100.f, 50.f), // Position
             sf::Vector2f(80.f, 50.f),             // Size
@@ -103,23 +107,33 @@ void Game::handleEvents() {
         }
 
         if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter) {
-            // Check for collisions or interactions (e.g., user typed a correct word)
-            for (auto it = invaders.begin(); it != invaders.end();) {
-                if (it->getWord() == inputString) {
-                    it = invaders.erase(it); // Remove the invader
-                } else {
-                    ++it;
+            // Check if the input matches any word in the Trie
+            if (wordTrie.search(inputString)) {
+                std::cout << "Correct word: " << inputString << std::endl;
+
+                // Mark corresponding invader as hit
+                for (auto& invader : invaders) {
+                    if (invader.getWord() == inputString) {
+                        invader.setHit(true);
+                        break;
+                    }
                 }
+            } else {
+                std::cout << "Incorrect word: " << inputString << std::endl;
             }
             inputString.clear();
         }
     }
 }
 
+
+
 // Update game elements (e.g., move invaders)
 void Game::update(float deltaTime) {
     for (auto& invader : invaders) {
-        invader.updatePosition(deltaTime);
+        if(!invader.getHit()){
+            invader.updatePosition(deltaTime); 
+        }
     }
 
     // Update user input display

@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include "invader.h"
+#include "trie.h"
 
 class Game {
 private:
@@ -16,6 +17,7 @@ private:
     sf::Text userInput;            // User input text
     sf::Clock clock;               // Clock for delta time calculations
     std::vector<std::string> words; 
+    Trie wordTrie; 
     std::string inputString;       // Current user input
 
 public:

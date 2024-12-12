@@ -3,7 +3,7 @@
 #include <sstream>
 
 Invader::Invader(const sf::Vector2f& position, const sf::Vector2f& size, const std::string& word, const std::string& fontFile)
-    : word(word), motion(getRandomMotion()), init_x(position.x) {
+    : word(word), motion(getRandomMotion()), init_x(position.x), hit(false) {
     if (!font.loadFromFile(fontFile)) {
         throw std::runtime_error("Error loading font from file: " + fontFile);
     }
@@ -135,5 +135,10 @@ std::string Invader::getInfo() const {
 
     return info.str();
 }
+bool Invader::getHit() const {
+    return hit;
+}
 
-
+void Invader::setHit(bool hitInput) {
+    hit = hitInput;
+}

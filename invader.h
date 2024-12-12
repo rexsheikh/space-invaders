@@ -20,6 +20,7 @@ private:
     std::string word;
     MotionType motion; 
     float init_x; 
+    bool hit; 
 public:
     // Constructor
     Invader(const sf::Vector2f& position, const sf::Vector2f& size, const std::string& word, const std::string& fontFile);
@@ -45,6 +46,8 @@ public:
     void updatePosition(float deltaTime); 
     std::string getMotionTypeAsString() const;
     std::string getInfo() const; 
+    bool getHit() const; 
+    void setHit(bool hit); 
 
 
 };
