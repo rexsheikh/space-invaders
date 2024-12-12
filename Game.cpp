@@ -1,7 +1,7 @@
 #include "Game.h"
 #include <iostream>
 #include <stdexcept>
-#include <vector>
+#include <fstream>
 
 // Constructor
 Game::Game(const std::string& backgroundFile, const std::string& fontFile)
@@ -35,14 +35,35 @@ Game::Game(const std::string& backgroundFile, const std::string& fontFile)
     userInput.setPosition(400.f, 750.f);
 }
 
-// Initialize game with 5 invaders. 
+void Game::loadWords(const std::string& filename) {
+    std::ifstream file(filename);
+    if (!file.is_open()) {
+        throw std::runtime_error("Error: Could not open file " + filename);
+    }
+
+    std::string word;
+    while (file >> word) { // Read words separated by whitespace
+        words.push_back(word);
+    }
+
+    file.close();
+
+    if (words.empty()) {
+        std::cerr << "Warning: No words found in file " << filename << std::endl;
+    } else {
+        std::cout << "Loaded " << words.size() << " words from file." << std::endl;
+    }
+}
+
+// load words from the text file and initialize game with 5 invaders. 
 void Game::initialize() {
+    loadWords("words.txt"); 
     invaders.reserve(5); 
     for (int i = 0; i < 5; ++i) {
         invaders.emplace_back(
             sf::Vector2f(100.f + i * 100.f, 50.f), // Position
             sf::Vector2f(80.f, 50.f),             // Size
-            "Word" + std::to_string(i),           // Word
+            words[i],           // Word
             "Roboto-Regular.ttf"                  // Font file
         );
         std::cout << "Invader " << i << " created: " << invaders.back().getInfo() << std::endl;

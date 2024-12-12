@@ -15,7 +15,7 @@ private:
     sf::Font font;                 // Font for rendering text
     sf::Text userInput;            // User input text
     sf::Clock clock;               // Clock for delta time calculations
-
+    std::vector<std::string> words; 
     std::string inputString;       // Current user input
 
 public:
@@ -37,6 +37,9 @@ private:
 
     // Renders all game elements
     void render();
+    
+   void loadWords(const std::string& filename); 
+
 };
 
 #endif // GAME_H

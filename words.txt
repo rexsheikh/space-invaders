@@ -3,11 +3,3 @@ world
 help
 trie
 tree
-algorithm
-data
-structure
-cat 
-dog 
-cup 
-mouse 
-house
