@@ -14,13 +14,13 @@ Invader::Invader(const sf::Vector2f& position, const sf::Vector2f& size, const s
     triangle.setPoint(1, sf::Vector2f(0.f, 0.f));                // Bottom-left point
     triangle.setPoint(2, sf::Vector2f(size.x, 0.f));             // Bottom-right point
     triangle.setPosition(position);
-    triangle.setFillColor(sf::Color::Blue);
+    triangle.setFillColor(sf::Color::White);
 
     // Initialize the text
     text.setFont(font);
     text.setString(word);
     text.setCharacterSize(24);
-    text.setFillColor(sf::Color::Black);
+    text.setFillColor(sf::Color::White);
 
     // Center the text below the triangle
     sf::FloatRect textBounds = text.getLocalBounds();
@@ -44,6 +44,9 @@ void Invader::setWord(const std::string& word) {
         triangle.getPosition().x + (triangle.getLocalBounds().width / 2.f) - (textBounds.width / 2.f),
         triangle.getPosition().y + triangle.getLocalBounds().height + 5.f
     );
+}
+std::string Invader::getWord() const{
+    return word; 
 }
 
 void Invader::move(const sf::Vector2f& offset) {

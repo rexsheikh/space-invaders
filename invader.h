@@ -30,6 +30,8 @@ public:
     // Set the word
     void setWord(const std::string& word);
 
+    std::string getWord() const; 
+
     // Move the sprite and text
     void move(const sf::Vector2f& offset);
 
@@ -43,6 +45,7 @@ public:
     void updatePosition(float deltaTime); 
     std::string getMotionTypeAsString() const;
     std::string getInfo() const; 
+
 
 };
 
