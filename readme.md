@@ -36,8 +36,9 @@ Set to (size.x, 0.f) to position it at the top-right of the bounding box.
 
 # to do
 SPRITES 
-[] sprite motion 
+[x] sprite motion 
     - straight down, sine wave (left to right, right to left), diagonal 
+[x] multiple sprite render
 [] on correct, spin out, fade away
 
 
@@ -54,13 +55,12 @@ GAME
 
 
 
-# pieces of code
-[] load from text file 
--     string word;
-    while (getline(words_file, word)) {
-        if (!word.empty()) {
-            trie.insert(word); 
-        }
-    }
-    words_file.close();
- 
+# references 
+- starry night background https://www.pexels.com/search/starry%20night/
+- general SFML setup and usage https://www.sfml-dev.org/tutorials/2.6/
+- enumeration: https://en.cppreference.com/w/cpp/language/enum
+- emplace_back vs push_back (needed to create invaders inside a loop)
+    - https://cplusplus.com/reference/vector/vector/emplace_back/
+    - https://cplusplus.com/reference/vector/vector/push_back/
+    - https://andreasfertig.blog/2023/04/push_back-vs-emplace_back-when-to-use-what/
+    

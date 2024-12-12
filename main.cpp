@@ -25,13 +25,6 @@ int main() {
         "Roboto-Regular.ttf"
     );
 }
-    // Invader invader_one(
-    // sf::Vector2f(200.f, 200.f),  // Position (x, y)
-    // sf::Vector2f(80.f, 50.f),   // Size (width, height)
-    // "Hello",                    // Word
-    // "Roboto-Regular.ttf"        // Font file
-    // );
-    // invaders.push_back(invader_one); 
 
 
 

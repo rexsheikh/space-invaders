@@ -6,3 +6,8 @@ tree
 algorithm
 data
 structure
+cat 
+dog 
+cup 
+mouse 
+house
