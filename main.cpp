@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include <string>
+#include <vector>
 #include "trie.h"
 #include "invader.h"
 using namespace std;
@@ -11,18 +12,28 @@ using namespace sf;
 int main() {
 
     //initialize the game window and simple prompts. 
-    RenderWindow window(VideoMode(800, 600), "Typing Test");
+    RenderWindow window(VideoMode(1200, 1200), "Typing Test");
     Font font;
     //initialize five invaders
     std::vector<Invader> invaders;
+    invaders.reserve(5); 
     for (int i = 0; i < 5; ++i) {
-        invaders.emplace_back(
-            sf::Vector2f(100.f + i * 100.f, 50.f), // Position
-            sf::Vector2f(80.f, 50.f),             // Size
-            "Word" + std::to_string(i),           // Word
-            "Roboto-Regular.ttf"                  // Font file
-        );
-    }
+    invaders.emplace_back(
+        sf::Vector2f(100.f + i * 100.f, 50.f),
+        sf::Vector2f(80.f, 50.f),
+        "Word" + std::to_string(i),
+        "Roboto-Regular.ttf"
+    );
+}
+    // Invader invader_one(
+    // sf::Vector2f(200.f, 200.f),  // Position (x, y)
+    // sf::Vector2f(80.f, 50.f),   // Size (width, height)
+    // "Hello",                    // Word
+    // "Roboto-Regular.ttf"        // Font file
+    // );
+    // invaders.push_back(invader_one); 
+
+
 
     // Print their motion types
     for (const auto& invader : invaders) {
@@ -101,14 +112,15 @@ int main() {
 
         // Update User Input Display
         user_input.setString("You typed: " + input);
+        window.clear(sf::Color::White);
         float deltaTime = clock.restart().asSeconds();
-        for (auto& invader : invaders) {
-            invader.updatePosition(deltaTime);
+
+        for (size_t i = 0; i < invaders.size(); ++i) {
+            invaders[i].updatePosition(deltaTime);
         }
-        // Render
-        window.clear(Color::White);
-        for (const auto& invader : invaders) {
-            invader.draw(window); // Render each invader
+
+        for (size_t i = 0; i < invaders.size(); ++i) {
+            invaders[i].draw(window);
         }
         window.draw(user_input);
         window.draw(feedback);
