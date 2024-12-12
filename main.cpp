@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <fstream>
 #include <iostream>
+#include <cmath>
 #include <string>
 #include "trie.h"
 #include "invader.h"
@@ -12,15 +13,19 @@ int main() {
     //initialize the game window and simple prompts. 
     RenderWindow window(VideoMode(800, 600), "Typing Test");
     Font font;
-    Invader invader_one(Vector2f(200.f, 200.f), Vector2f(100.f, 50.f), "Hello", "Roboto-Regular.ttf");
-
+    //example invader
+    Invader invader_one(
+        Vector2f(200.f, 200.f), 
+        Vector2f(100.f, 50.f), 
+        "hello", 
+        "Roboto-Regular.ttf");
+    std::cout << invader_one.getInfo() << std::endl;
+    Clock clock; 
+    float invader_speed = 20.f; 
     if (!font.loadFromFile("Roboto-Regular.ttf")) {
         cerr << "Error loading font\n";
         return -1;
     }
-    // sf::Text prompt("Type a word:", font, 24);
-    // prompt.setPosition(50, 50);
-    // prompt.setFillColor(sf::Color::Black);
 
     Text user_input("", font, 24);
     user_input.setPosition(50, 100);
@@ -41,7 +46,7 @@ int main() {
     string word;
     while (getline(words_file, word)) {
         if (!word.empty()) {
-            trie.insert(word); // Insert word into the Trie
+            trie.insert(word); 
         }
     }
     words_file.close();
@@ -88,6 +93,8 @@ int main() {
 
         // Update User Input Display
         user_input.setString("You typed: " + input);
+        float deltaTime = clock.restart().asSeconds();
+        invader_one.move(Vector2f(0.f,invader_speed*deltaTime)); 
 
         // Render
         window.clear(Color::White);

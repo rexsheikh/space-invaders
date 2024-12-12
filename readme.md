@@ -22,4 +22,45 @@ This game leverages that speed to quickly check user input against a set of word
 # Conclusion
 
 # Notes 
-Compiling with: g++ -o typing_test main.cpp -std=c++11 -I/opt/homebrew/include -L/opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
+1 - Compiling with: g++ -o typing_test main.cpp -std=c++11 -I/opt/homebrew/include -L/opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
+
+
+2 - how to draw a triangle in SFML
+Point 0: The bottom-middle point of the triangle.
+Set to (size.x / 2.f, size.y) to position it at the middle of the bottom edge.
+Point 1: The top-left corner.
+Set to (0.f, 0.f) to position it at the top-left of the bounding box.
+Point 2: The top-right corner.
+Set to (size.x, 0.f) to position it at the top-right of the bounding box.
+
+
+# to do
+SPRITES 
+[] sprite motion 
+    - straight down, sine wave (left to right, right to left), diagonal 
+[] on correct, spin out, fade away
+
+
+GAME
+[] game over when sprite reaches certain point or 50 words have been typed 
+[] iterate score
+[] spawn - max 50 words
+[] track accuracy, wpm  
+[] environment - background (starry night)
+[] typing area - show user input, clear on enter. 
+
+
+ 
+
+
+
+# pieces of code
+[] load from text file 
+-     string word;
+    while (getline(words_file, word)) {
+        if (!word.empty()) {
+            trie.insert(word); 
+        }
+    }
+    words_file.close();
+ 
