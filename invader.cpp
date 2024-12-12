@@ -63,8 +63,13 @@ void Invader::setPosition(const sf::Vector2f& position) {
 }
 
 Invader::MotionType Invader::getRandomMotion() {
-    int motionIndex = std::rand() % 3; // Generate random number between 0 and 2
-    return static_cast<MotionType>(motionIndex);
+    static std::random_device rd;  // Seed
+    static std::mt19937 gen(rd()); // Random number generator
+    static std::uniform_int_distribution<> dis(0, 2); // Range: 0 to 2
+
+    int motionIndex = dis(gen); // Generate random number
+    MotionType motion = static_cast<MotionType>(motionIndex);
+    return motion; 
 }
 
 

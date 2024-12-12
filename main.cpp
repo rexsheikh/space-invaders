@@ -13,13 +13,21 @@ int main() {
     //initialize the game window and simple prompts. 
     RenderWindow window(VideoMode(800, 600), "Typing Test");
     Font font;
-    //example invader
-    Invader invader_one(
-        Vector2f(200.f, 200.f), 
-        Vector2f(100.f, 50.f), 
-        "hello", 
-        "Roboto-Regular.ttf");
-    std::cout << invader_one.getInfo() << std::endl;
+    //initialize five invaders
+    std::vector<Invader> invaders;
+    for (int i = 0; i < 5; ++i) {
+        invaders.emplace_back(
+            sf::Vector2f(100.f + i * 100.f, 50.f), // Position
+            sf::Vector2f(80.f, 50.f),             // Size
+            "Word" + std::to_string(i),           // Word
+            "Roboto-Regular.ttf"                  // Font file
+        );
+    }
+
+    // Print their motion types
+    for (const auto& invader : invaders) {
+        std::cout << invader.getInfo() << std::endl;
+    }
     Clock clock; 
     float invader_speed = 20.f; 
     if (!font.loadFromFile("Roboto-Regular.ttf")) {
@@ -94,11 +102,14 @@ int main() {
         // Update User Input Display
         user_input.setString("You typed: " + input);
         float deltaTime = clock.restart().asSeconds();
-        invader_one.move(Vector2f(0.f,invader_speed*deltaTime)); 
-
+        for (auto& invader : invaders) {
+            invader.updatePosition(deltaTime);
+        }
         // Render
         window.clear(Color::White);
-        invader_one.draw(window); 
+        for (const auto& invader : invaders) {
+            invader.draw(window); // Render each invader
+        }
         window.draw(user_input);
         window.draw(feedback);
         window.display();
