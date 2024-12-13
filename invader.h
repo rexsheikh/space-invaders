@@ -7,33 +7,32 @@
 
 class Invader {
 public:
-// Enum for motion behavior
+// Enum for motion behavior (REFERENCE #13)
 enum class MotionType {
     Downward,
     DownwardSine,
     Diagonal
 };
 private:
-    sf::ConvexShape triangle;   
-    sf::Text text;             
+    sf::ConvexShape triangle;  
+    sf::Text text;            
     sf::Font font;      
     std::string word;
-    MotionType motion; 
+    MotionType motion; // Set using the enum class above in the constructor using a switch statement.
     float init_x; 
     bool hit; 
 public:
     // Constructor
     Invader(const sf::Vector2f& position, const sf::Vector2f& size, const std::string& word, const std::string& fontFile);
 
-    // Draw the sprite and text
+    // Draw the invader and text
     void draw(sf::RenderWindow& window) const;
 
-    // Set the word
+    // Set/get the word
     void setWord(const std::string& word);
-
     std::string getWord() const; 
 
-    // Move the sprite and text
+    // Move the invader and text
     void move(const sf::Vector2f& offset);
 
     // Set the position of the sprite and text

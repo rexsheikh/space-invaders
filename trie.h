@@ -5,14 +5,14 @@ using namespace std;
 
 class TrieNode{
     public:
-    bool isLeaf; 
+    bool isLeaf; // Marks last character as the end of a string. 
     unordered_map<char, TrieNode*> children;  // Map of child nodes
     TrieNode(); 
     ~TrieNode(); 
 };
 class Trie{
     private:
-    TrieNode* root; 
+    TrieNode* root; // Root used to check child TrieNodes sequentially.  
     public:
     Trie(); 
     ~Trie(); 

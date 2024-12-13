@@ -9,53 +9,47 @@
 
 class Game {
 private:
-    sf::RenderWindow window;       // Main game window
-    sf::Texture backgroundTexture; // Texture for the background
-    sf::Sprite backgroundSprite;   // Sprite to render the background
-    std::vector<Invader> invaders; // Vector of invaders
-    sf::Font font;                 // Font for rendering text
-    sf::Text userInput;            // User input text
-    sf::Clock clock;               // Clock for delta time calculations
+    sf::RenderWindow window;             // Main game window
+    sf::Texture backgroundTexture;       // Texture for the background
+    sf::Sprite backgroundSprite;         // Sprite to render the background
+    std::vector<Invader> invaders;       // Vector of invaders
+    sf::Font font;                       // Font for rendering text
+    sf::Text userInput;                  // User input text
+    sf::Clock clock;                     // Clock for delta time calculations
     sf::Clock spawnClock;                // Clock for spawning new invaders
-    std::vector<std::string> words; 
-    Trie wordTrie; 
-    int wordIdx; 
-    std::string inputString;  
-    int numHit;     // Current user input
-    bool gameOver; 
-    bool playAgain;
-    std::string endString; 
-    sf::Clock gameTimer; 
-    float finalElapsedTime; 
+    std::vector<std::string> words;      // Words loaded from the text file "words.txt"
+    Trie wordTrie;                       // Trie data structure for checking user input
+    int wordIdx;                         // Index to the words vector
+    std::string inputString;             // User input string 
+    int numHit;                          // Number of correctly entered words 
+    bool gameOver;                       // Used as an element to terminate the main loop 
+    bool playAgain;                      // Used to signal window closure or game restart. 
+    std::string endString;               // Captures message to display in endgame screen (win or loss)
+    sf::Clock gameTimer;                 // Used to calculate WPM 
+    float finalElapsedTime;              // captures final gameTimer in seconds to calculate WPM
 public:
-    // Constructor
+    // Constructor with background file and font file. other relevant members are initialized in the body of the constructor. 
     Game(const std::string& backgroundFile, const std::string& fontFile);
-
-    // Initializes the game (e.g., load resources, setup initial state)
+    // Loads resources and instantiates first five invaders. 
     void initialize();
-
-    // Runs the main game loop
+    // Main game loop  
     void run();
-
-    // Spawn a new invader 
+    // Spawn a new invader using the spawnClock (every 3 seconds)  
     void spawnInvader(); 
-    
-    // Check end game conditions (cleared all words or invader reached bottom)
-
 
 private:
-    // Handles all game events (e.g., user input)
+    // Handles user text input and window closure events. 
     void handleEvents();
 
-    // Updates the game state (e.g., invaders, animations)
+    // Updates the gamestate to include invader position. Captures any game ending criteria. 
     void update(float deltaTime);
 
     // Renders all game elements
     void render();
-    
     // Load words from a given text file
     void loadWords(const std::string& filename); 
 
+    // Render and handle play again option. 
     void renderPlayAgainPrompt(); 
     void handlePlayAgainInput(); 
  

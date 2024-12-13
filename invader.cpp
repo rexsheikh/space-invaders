@@ -2,17 +2,18 @@
 #include <stdexcept>
 #include <sstream>
 
+// Constructor that takes position, word, font, calls the getRandomMotion() function to assign a motion pattern, and sets hit to false. 
 Invader::Invader(const sf::Vector2f& position, const sf::Vector2f& size, const std::string& word, const std::string& fontFile)
     : word(word), motion(getRandomMotion()), init_x(position.x), hit(false) {
     if (!font.loadFromFile(fontFile)) {
         throw std::runtime_error("Error loading font from file: " + fontFile);
     }
 
-    // Initialize the triangle shape
-    triangle.setPointCount(3); // A triangle has 3 points
-    triangle.setPoint(0, sf::Vector2f(size.x / 2.f,size.y));          // Top point
-    triangle.setPoint(1, sf::Vector2f(0.f, 0.f));                // Bottom-left point
-    triangle.setPoint(2, sf::Vector2f(size.x, 0.f));             // Bottom-right point
+    // Build the triangle shape. (REFERENCE #11)
+    triangle.setPointCount(3);                                   // A triangle has 3 points
+    triangle.setPoint(0, sf::Vector2f(size.x / 2.f,size.y));     // Top point
+    triangle.setPoint(1, sf::Vector2f(0.f, 0.f));                // Base-left
+    triangle.setPoint(2, sf::Vector2f(size.x, 0.f));             // Base-right
     triangle.setPosition(position);
     triangle.setFillColor(sf::Color::White);
 
@@ -30,34 +31,35 @@ Invader::Invader(const sf::Vector2f& position, const sf::Vector2f& size, const s
     );
 }
 
+// Draws the invader to a window
 void Invader::draw(sf::RenderWindow& window) const {
     window.draw(triangle);
     window.draw(text);
 }
 
+// Word setter with an update to keep the text positioned below the triangle. 
 void Invader::setWord(const std::string& word) {
     text.setString(word);
-
-    // Update text position to keep it centered below the triangle
     sf::FloatRect textBounds = text.getLocalBounds();
     text.setPosition(
         triangle.getPosition().x + (triangle.getLocalBounds().width / 2.f) - (textBounds.width / 2.f),
         triangle.getPosition().y + triangle.getLocalBounds().height + 5.f
     );
 }
+// Word getter used in check logic. 
 std::string Invader::getWord() const{
     return word; 
 }
 
+// Move by the offset input
 void Invader::move(const sf::Vector2f& offset) {
     triangle.move(offset);
     text.move(offset);
 }
-
+// Sets initial position of the triangle shape and keeps the text with the shape. 
 void Invader::setPosition(const sf::Vector2f& position) {
     triangle.setPosition(position);
 
-    // Update text position to remain below the triangle
     sf::FloatRect textBounds = text.getLocalBounds();
     text.setPosition(
         position.x + (triangle.getLocalBounds().width / 2.f) - (textBounds.width / 2.f),
@@ -65,17 +67,18 @@ void Invader::setPosition(const sf::Vector2f& position) {
     );
 }
 
+// uses the enum class to assign motion randomly through the <random> library. 
 Invader::MotionType Invader::getRandomMotion() {
-    static std::random_device rd;  // Seed
-    static std::mt19937 gen(rd()); // Random number generator
-    static std::uniform_int_distribution<> dis(0, 2); // Range: 0 to 2
+    static std::random_device rd;                       // Seed
+    static std::mt19937 gen(rd());                     // Generator
+    static std::uniform_int_distribution<> dis(0, 2); // Cut range to 0,1,2 for enum class
 
     int motionIndex = dis(gen); // Generate random number
     MotionType motion = static_cast<MotionType>(motionIndex);
     return motion; 
 }
 
-
+// updates the position based on the motion type. 
 void Invader::updatePosition(float deltaTime){
     float y_increment = 50.f * deltaTime; // Common downward speed
     float x_position = triangle.getPosition().x;
@@ -105,6 +108,8 @@ void Invader::updatePosition(float deltaTime){
         triangle.getPosition().y + triangle.getLocalBounds().height + 5.f
     );
 }
+// Helper function for debugging. Useful to see that the first attempt at randomized motion was generating the same motion for all invaders leading to 
+// the implementation using the <random> library. 
 std::string Invader::getMotionTypeAsString() const {
     switch (motion) {
         case MotionType::Downward:
@@ -117,6 +122,7 @@ std::string Invader::getMotionTypeAsString() const {
             return "Unknown";
     }
 }
+// Helper function for debugging to verify invader instantiation. 
 std::string Invader::getInfo() const {
     std::ostringstream info;
 
@@ -135,14 +141,15 @@ std::string Invader::getInfo() const {
 
     return info.str();
 }
+// Used in game end logic and to stop invaders from moving downward on hit. 
 bool Invader::getHit() const {
     return hit;
 }
-
+// Turns the hit boolean on
 void Invader::setHit(bool hitInput) {
     hit = hitInput;
 }
-
+// Returns the position of the invader. Used in game end logic (loss) if an invader reaches the bottom of the screen. 
 sf::Vector2f Invader::getPosition() const{
     return triangle.getPosition(); 
 }
