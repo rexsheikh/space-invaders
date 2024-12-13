@@ -16,10 +16,17 @@ private:
     sf::Font font;                 // Font for rendering text
     sf::Text userInput;            // User input text
     sf::Clock clock;               // Clock for delta time calculations
+    sf::Clock spawnClock;                // Clock for spawning new invaders
     std::vector<std::string> words; 
     Trie wordTrie; 
-    std::string inputString;       // Current user input
-
+    int wordIdx; 
+    std::string inputString;  
+    int numHit;     // Current user input
+    bool gameOver; 
+    bool playAgain;
+    std::string endString; 
+    sf::Clock gameTimer; 
+    float finalElapsedTime; 
 public:
     // Constructor
     Game(const std::string& backgroundFile, const std::string& fontFile);
@@ -29,6 +36,12 @@ public:
 
     // Runs the main game loop
     void run();
+
+    // Spawn a new invader 
+    void spawnInvader(); 
+    
+    // Check end game conditions (cleared all words or invader reached bottom)
+
 
 private:
     // Handles all game events (e.g., user input)
@@ -40,7 +53,18 @@ private:
     // Renders all game elements
     void render();
     
-   void loadWords(const std::string& filename); 
+    // Load words from a given text file
+    void loadWords(const std::string& filename); 
+
+    void renderPlayAgainPrompt(); 
+    void handlePlayAgainInput(); 
+ 
+
+    
+
+ 
+
+
 
 };
 

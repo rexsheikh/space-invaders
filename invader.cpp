@@ -142,3 +142,7 @@ bool Invader::getHit() const {
 void Invader::setHit(bool hitInput) {
     hit = hitInput;
 }
+
+sf::Vector2f Invader::getPosition() const{
+    return triangle.getPosition(); 
+}

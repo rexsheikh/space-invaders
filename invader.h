@@ -38,6 +38,9 @@ public:
 
     // Set the position of the sprite and text
     void setPosition(const sf::Vector2f& position);
+
+    // Get the position of the invader 
+    sf::Vector2f getPosition() const; 
     
     // Randomly select motion type from enum class above 
     static MotionType getRandomMotion(); 
