@@ -80,7 +80,7 @@ Invader::MotionType Invader::getRandomMotion() {
 
 // updates the position based on the motion type. 
 void Invader::updatePosition(float deltaTime){
-    float y_increment = 50.f * deltaTime; // Common downward speed
+    float y_increment = 20.f * deltaTime; // Common downward speed
     float x_position = triangle.getPosition().x;
     float y_position = triangle.getPosition().y;
 

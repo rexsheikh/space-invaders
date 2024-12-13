@@ -71,23 +71,39 @@ The game class manages the overall game logic to include the main game loop, use
 ## Invader Class 
 The Invader class draws a simple triangle with text beneath to show the player the words they must type to win. This class is relatively straightforward with each invader given an initial (x,y) position. It's motion is randomly set to move straight down, downward in wavelike pattern, or downward in diagonal steps.  
 
-# Space Invaders Gameplay
+## Space Invaders Gameplay
+The game is initialized with five invaders with assigned words and motion types. 
+<p align="center">
+  <img src="assets/initialSpawn.png" alt="searchAndInsert" width="500">
+</p>
+
+The user inputs one of the words displayed below an invader to stop it. Here, the word hello is typed and entered. The first figure shows the user input before the enter keystroke and the second just after. Correcty inputting a word will stop an invader from progressing which eliminates it as a threat to trigger a loss. The hit number global is incremented to keep track of the number of cleared words to trigger a win. 
+<p align="center">
+  <img src="assets/userTextBeforeEnter.png" alt="searchAndInsert" width="500">
+</p>
+
+<p align="center">
+  <img src="assets/afterEnter.png" alt="searchAndInsert" width="500">
+</p>
+
+Every three seconds, a new word is spawned. All words are loaded into the words vector initially and the wordIdx global is used to spawn a new word and step through the vector based on the spawnClock timer. The below figure shows a new spawn after the initial five invaders. 
+<p align="center">
+  <img src="assets/spawn.png" alt="searchAndInsert" width="500">
+</p>
+
+The number of words to clear is set in the text file. There must be at least five but the user can input as many words as they want. The game ends when all words are cleared. Below are the win and loss screens. Both show words per minute and prompt the player to play again or not. Play again will either restart the game loop or close the window. 
+<p align="center">
+  <img src="assets/lossScreen.png" alt="searchAndInsert" width="500">
+</p>
+<p align="center">
+  <img src="assets/userWin.png" alt="searchAndInsert" width="500">
+</p>
 
 
-# Conclusion
 
 # Notes 
-1 - Compiling with: g++ -o typing_test main.cpp -std=c++11 -I/opt/homebrew/include -L/opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
-
-
-2 - how to draw a triangle in SFML
-Point 0: The bottom-middle point of the triangle.
-Set to (size.x / 2.f, size.y) to position it at the middle of the bottom edge.
-Point 1: The top-left corner.
-Set to (0.f, 0.f) to position it at the top-left of the bounding box.
-Point 2: The top-right corner.
-Set to (size.x, 0.f) to position it at the top-right of the bounding box.
-
+1 - Compiling with: 
+g++ -o typing_test main.cpp -std=c++11 -I/opt/homebrew/include -L/opt/homebrew/lib -lsfml-graphics -lsfml-window -lsfml-system
 
 # references 
 1. starry night background https://www.pexels.com/search/starry%20night/
